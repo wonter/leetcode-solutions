@@ -14,20 +14,52 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        shared_ptr<ListNode> guard = make_shared<ListNode>(0);
+        ListNode *p = head;
+        ListNode *q = head;
 
-        ListNode *node = head;
-        while (node != nullptr) {
-            if (node->next == guard.get()) {
+        while (p != nullptr && q != nullptr) {
+            ListNode *next;
+            
+            next = p->next;
+            p = next;
+
+            next = q->next;
+            if (next != nullptr) {
+                next = next->next;
+            }
+            q = next;
+
+            if (p != nullptr && p == q) {
                 return true;
             }
-
-            ListNode *next = node->next;
-            node->next = guard.get();
-            node = next;
         }
 
         return false;
     }
 };
 
+
+
+bool hasCycle(ListNode *head) {
+    ListNode *p = head;
+    ListNode *q = head;
+
+    while (p != nullptr && q != nullptr) {
+        ListNode *next;
+        
+        next = p->next;
+        p = next;
+
+        next = q->next;
+        if (next != nullptr) {
+            next = next->next;
+        }
+        q = next;
+
+        if (p != nullptr && p == q) {
+            return true;
+        }
+    }
+
+    return false;
+}
