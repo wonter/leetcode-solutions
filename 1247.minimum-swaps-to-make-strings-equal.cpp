@@ -69,54 +69,20 @@
 class Solution {
 public:
     int minimumSwap(string s1, string s2) {
-        int n = s1.size();
-        int m = s2.size();
-        if (n + m == 0) {
-            return 0;
-        }
-
-        int ret = 0;
-        for (int i = 0; i < n; ++i) {
-            if (s1[i] == s2[i]) {
-                continue;
+        int xy = 0;
+        int yx = 0;
+        for (size_t i = 0; i < s1.size(); ++i) {
+            if (s1[i] == 'x' && s2[i] == 'y') {
+                xy++;
             }
-
-            ++ret;
-
-            bool found = false;
-            for (int j = i + 1; j < m; ++j) {
-                if (s1[j] == s1[i] && s2[j] == s2[i]) {
-                    found = true;
-                    swap(s1[j], s2[i]);
-                }
-            }
-            if (found) {
-                continue;
-            }
-
-            for (int j = i + 1; j < m; ++j) {
-                if (s1[j] == s1[i]) {
-                    found = true;
-                    swap(s2[i], s1[j]);
-                    continue;
-                }
-                if (s2[j] == s2[i]) {
-                    found = true;
-                    swap(s1[i], s2[j]);
-                    continue;
-                }
-            }
-            if (!found) {
-                if (i == n - 1) {
-                    return -1;
-                }
-                swap(s1[i], s2[i]);
-                --i;
+            if (s1[i] == 'y' && s2[i] == 'x') {
+                yx++;
             }
         }
-
-        return ret;
+        if (xy%2 + yx%2 == 1) {
+            return -1;
+        }
+        return xy/2 + yx/2 + xy%2 + yx%2;
     }
 };
 // @lc code=end
-
