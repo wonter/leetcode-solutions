@@ -22,12 +22,29 @@ public:
         }
         int avg = sum / n;
 
+        int left_dress = 0;
+        int left_machine = 0;
+        int right_dress = sum;
+        int right_machine = n;
         int ret = 0;
-        int sum = 0;
         for (int machine : machines) {
-            sum += machine - avg;
-            ret = max(ret, max(abs(sum), machine - avg));
+            right_dress -= machine;
+            right_machine -= 1;
+
+            if (right_dress > right_machine * avg && (left_dress + machine) <= (left_machine + 1) * avg) {
+                ret = max(ret, right_dress - right_machine * avg);
+            } else if ((right_dress + machine) <= (right_machine + 1) * avg && left_dress > left_machine * avg) {
+                ret = max(ret, left_dress - left_machine * avg);
+            } else if (right_dress <= right_machine * avg && left_dress <= left_machine * avg) {
+                ret = max(ret, machine - avg);
+            } else if (right_dress >= right_machine * avg && left_dress >= left_machine * avg) {
+                ret = max(ret, max(right_dress - right_machine * avg, left_dress - left_machine * avg));
+            }
+
+            left_dress += machine;
+            left_machine += 1;
         }
+
         return ret;
     }
 };
